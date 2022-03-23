@@ -2,21 +2,21 @@ package com.trendyol.linkconverter.controller;
 
 import com.trendyol.linkconverter.dto.DeepLinkResponseDto;
 import com.trendyol.linkconverter.dto.WebLinkRequestDto;
-import com.trendyol.linkconverter.weblink.strategies.DefaultWeblinkStrategy;
-import com.trendyol.linkconverter.weblink.strategies.WebLinkStrategy;
+import com.trendyol.linkconverter.weblink.sevice.WebLinkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/link")
 public class LinkController {
+
+    private final WebLinkService webLinkService;
 
     /*
 
@@ -27,22 +27,8 @@ public class LinkController {
     ty://?Page=Product&ContentId=1925865&CampaignId=439892&MerchantId=105064
 
     */
-
-    private final List<WebLinkStrategy> webLinkStrategies;
-    private final DefaultWeblinkStrategy defaultWeblinkStrategy;
-
     @PostMapping
-    public DeepLinkResponseDto convertToDeepLink(@RequestBody WebLinkRequestDto webLinkRequestDto) {
-
-        var webLinkUri = UriComponentsBuilder.fromUriString(webLinkRequestDto.webLink()).build();
-
-        var webLinkStrategy = webLinkStrategies.stream()
-                .filter(strategy -> strategy.isWebLinkApplicable().test(webLinkUri))
-                .findFirst()
-                .orElse(defaultWeblinkStrategy);
-
-        var deepLink = webLinkStrategy.createDeepLink(webLinkUri);
-
-        return new DeepLinkResponseDto(deepLink);
+    public DeepLinkResponseDto convertToDeepLink(@RequestBody @Valid WebLinkRequestDto webLinkRequestDto) {
+        return webLinkService.convertToDeepLink(webLinkRequestDto);
     }
 }

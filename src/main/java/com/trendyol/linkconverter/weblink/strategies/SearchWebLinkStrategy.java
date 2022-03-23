@@ -4,13 +4,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.function.Predicate;
-
 @Component
 public class SearchWebLinkStrategy implements WebLinkStrategy {
     @Override
-    public String createDeepLink(UriComponents uriComponents) {
-        var queryParams = uriComponents.getQueryParams();
+    public String createDeepLink(UriComponents webLinkUri) {
+        var queryParams = webLinkUri.getQueryParams();
 
         var deepLinkUri = UriComponentsBuilder.fromUriString("")
                 .scheme("ty//")
@@ -22,13 +20,11 @@ public class SearchWebLinkStrategy implements WebLinkStrategy {
     }
 
     @Override
-    public Predicate<UriComponents> isWebLinkApplicable() {
-        return uriComponents -> {
-            var pathSegments = uriComponents.getPathSegments();
-            if (pathSegments.isEmpty()) {
-                return false;
-            }
-            return pathSegments.get(0).equals("sr");
-        };
+    public boolean isWebLinkApplicable(UriComponents webLinkUri) {
+        var pathSegments = webLinkUri.getPathSegments();
+        if (pathSegments.isEmpty()) {
+            return false;
+        }
+        return pathSegments.get(0).equals("sr");
     }
 }

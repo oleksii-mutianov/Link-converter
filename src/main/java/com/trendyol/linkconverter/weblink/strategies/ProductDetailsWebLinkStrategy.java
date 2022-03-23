@@ -1,20 +1,20 @@
 package com.trendyol.linkconverter.weblink.strategies;
 
+import com.google.common.base.CharMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Component
 public class ProductDetailsWebLinkStrategy implements WebLinkStrategy {
     @Override
-    public String createDeepLink(UriComponents uriComponents) {
-        var pathSegments = uriComponents.getPathSegments();
-        var queryParams = uriComponents.getQueryParams();
+    public String createDeepLink(UriComponents webLinkUri) {
+        var pathSegments = webLinkUri.getPathSegments();
         var lastSegment = pathSegments.get(pathSegments.size() - 1);
-        var contentId = lastSegment.replaceAll("\\D+", "");
+        var contentId = CharMatcher.inRange('0', '9').retainFrom(lastSegment);
+        var queryParams = webLinkUri.getQueryParams();
 
         var deepLinkUri = UriComponentsBuilder.fromUriString("")
                 .scheme("ty//")
@@ -28,16 +28,14 @@ public class ProductDetailsWebLinkStrategy implements WebLinkStrategy {
     }
 
     @Override
-    public Predicate<UriComponents> isWebLinkApplicable() {
-        return uriComponents -> {
-            var pathSegments = uriComponents.getPathSegments();
-            var applicableSegmentCount = 2;
-            if (pathSegments.size() != applicableSegmentCount) {
-                return false;
-            }
+    public boolean isWebLinkApplicable(UriComponents webLinkUri) {
+        var pathSegments = webLinkUri.getPathSegments();
+        var applicableSegmentCount = 2;
+        if (pathSegments.size() != applicableSegmentCount) {
+            return false;
+        }
 
-            var lastSegmentIndex = 1;
-            return pathSegments.get(lastSegmentIndex).contains("-p-");
-        };
+        var lastSegmentIndex = 1;
+        return pathSegments.get(lastSegmentIndex).contains("-p-");
     }
 }

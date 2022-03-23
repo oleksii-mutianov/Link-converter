@@ -2,12 +2,10 @@ package com.trendyol.linkconverter.weblink.strategies;
 
 import org.springframework.web.util.UriComponents;
 
-import java.util.function.Predicate;
-
 public interface WebLinkStrategy {
 
-    String createDeepLink(UriComponents uriComponents);
+    String createDeepLink(UriComponents webLinkUri);
 
-    Predicate<UriComponents> isWebLinkApplicable();
+    boolean isWebLinkApplicable(UriComponents webLinkUri);
 
 }

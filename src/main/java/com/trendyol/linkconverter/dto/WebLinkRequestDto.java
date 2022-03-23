@@ -1,4 +1,6 @@
 package com.trendyol.linkconverter.dto;
 
-public record WebLinkRequestDto(String webLink) {
+import javax.validation.constraints.NotBlank;
+
+public record WebLinkRequestDto(@NotBlank String webLink) {
 }
