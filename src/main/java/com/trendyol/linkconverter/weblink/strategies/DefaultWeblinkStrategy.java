@@ -12,7 +12,7 @@ public class DefaultWeblinkStrategy implements WebLinkStrategy {
     }
 
     @Override
-    public boolean isWebLinkApplicable(UriComponents webLinkUri) {
-        return false; // We can choose default strategy only manually
+    public boolean isCacheAvailable() {
+        return false;
     }
 }

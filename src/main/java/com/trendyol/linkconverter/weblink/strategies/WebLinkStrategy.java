@@ -6,6 +6,12 @@ public interface WebLinkStrategy {
 
     String createDeepLink(UriComponents webLinkUri);
 
-    boolean isWebLinkApplicable(UriComponents webLinkUri);
+    default boolean isWebLinkApplicable(UriComponents webLinkUri) {
+        return false;
+    }
+
+    default boolean isCacheAvailable() {
+        return true;
+    }
 
 }

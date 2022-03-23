@@ -22,7 +22,7 @@ public class SearchWebLinkStrategy implements WebLinkStrategy {
     @Override
     public boolean isWebLinkApplicable(UriComponents webLinkUri) {
         var pathSegments = webLinkUri.getPathSegments();
-        if (pathSegments.isEmpty()) {
+        if (pathSegments.size() != 1) {
             return false;
         }
         return pathSegments.get(0).equals("sr");
