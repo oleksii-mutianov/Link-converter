@@ -9,20 +9,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Optional;
 
 @Component
-public class ProductDetailsWebLinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
+public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
 
-    public ProductDetailsWebLinkStrategy(WeblinkRepository weblinkRepository) {
+    public ProductDetailsWeblinkStrategy(WeblinkRepository weblinkRepository) {
         super(weblinkRepository);
     }
 
     @Override
-    public String createNewDeepLink(UriComponents webLinkUri) {
-        var pathSegments = webLinkUri.getPathSegments();
+    public String createNewDeeplink(UriComponents weblinkUri) {
+        var pathSegments = weblinkUri.getPathSegments();
         var lastSegment = pathSegments.get(pathSegments.size() - 1);
         var contentId = CharMatcher.inRange('0', '9').retainFrom(lastSegment);
-        var queryParams = webLinkUri.getQueryParams();
+        var queryParams = weblinkUri.getQueryParams();
 
-        var deepLinkUri = UriComponentsBuilder.fromUriString("")
+        var deeplinkUri = UriComponentsBuilder.fromUriString("")
                 .scheme("ty//")
                 .queryParam("Page", "Product")
                 .queryParam("ContentId", contentId)
@@ -30,12 +30,12 @@ public class ProductDetailsWebLinkStrategy extends AbstractWeblinkStrategyPersis
                 .queryParamIfPresent("MerchantId", Optional.ofNullable(queryParams.get("merchantId")))
                 .build();
 
-        return deepLinkUri.toString();
+        return deeplinkUri.toString();
     }
 
     @Override
-    public boolean isWebLinkApplicable(UriComponents webLinkUri) {
-        var pathSegments = webLinkUri.getPathSegments();
+    public boolean isWeblinkApplicable(UriComponents weblinkUri) {
+        var pathSegments = weblinkUri.getPathSegments();
         var applicableSegmentCount = 2;
         if (pathSegments.size() != applicableSegmentCount) {
             return false;

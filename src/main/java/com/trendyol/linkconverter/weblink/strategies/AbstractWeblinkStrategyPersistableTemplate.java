@@ -6,23 +6,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.util.UriComponents;
 
 @RequiredArgsConstructor
-public abstract class AbstractWeblinkStrategyPersistableTemplate implements WebLinkStrategy {
+public abstract class AbstractWeblinkStrategyPersistableTemplate implements WeblinkStrategy {
 
     private final WeblinkRepository weblinkRepository;
 
-    protected abstract String createNewDeepLink(UriComponents webLinkUri);
+    protected abstract String createNewDeeplink(UriComponents weblinkUri);
 
     @Override
-    public String getDeepLink(UriComponents webLinkUri) {
-        var webLink = webLinkUri.toString();
-        var weblinkEntity = weblinkRepository.findById(webLink);
+    public String getDeeplink(UriComponents weblinkUri) {
+        var weblink = weblinkUri.toString();
+        var weblinkEntity = weblinkRepository.findById(weblink);
         if (weblinkEntity.isPresent()) {
-            return weblinkEntity.get().getDeepLink();
+            return weblinkEntity.get().getDeeplink();
         }
 
-        var deepLink = createNewDeepLink(webLinkUri);
-        weblinkRepository.save(new WeblinkEntity(webLink, deepLink));
+        var deeplink = createNewDeeplink(weblinkUri);
+        weblinkRepository.save(new WeblinkEntity(weblink, deeplink));
 
-        return deepLink;
+        return deeplink;
     }
 }

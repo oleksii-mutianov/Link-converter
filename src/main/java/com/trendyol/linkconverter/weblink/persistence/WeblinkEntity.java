@@ -12,6 +12,6 @@ import org.springframework.data.redis.core.RedisHash;
 @RedisHash
 public class WeblinkEntity {
     @Id
-    private String webLink;
-    private String deepLink;
+    private String weblink;
+    private String deeplink;
 }

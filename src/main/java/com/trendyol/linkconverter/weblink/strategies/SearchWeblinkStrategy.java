@@ -6,28 +6,28 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-public class SearchWebLinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
+public class SearchWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
 
-    public SearchWebLinkStrategy(WeblinkRepository weblinkRepository) {
+    public SearchWeblinkStrategy(WeblinkRepository weblinkRepository) {
         super(weblinkRepository);
     }
 
     @Override
-    public String createNewDeepLink(UriComponents webLinkUri) {
-        var queryParams = webLinkUri.getQueryParams();
+    public String createNewDeeplink(UriComponents weblinkUri) {
+        var queryParams = weblinkUri.getQueryParams();
 
-        var deepLinkUri = UriComponentsBuilder.fromUriString("")
+        var deeplinkUri = UriComponentsBuilder.fromUriString("")
                 .scheme("ty//")
                 .queryParam("Page", "Search")
                 .queryParam("Query", queryParams.get("q"))
                 .build();
 
-        return deepLinkUri.toString();
+        return deeplinkUri.toString();
     }
 
     @Override
-    public boolean isWebLinkApplicable(UriComponents webLinkUri) {
-        var pathSegments = webLinkUri.getPathSegments();
+    public boolean isWeblinkApplicable(UriComponents weblinkUri) {
+        var pathSegments = weblinkUri.getPathSegments();
         var applicableSegmentCount = 1;
         if (pathSegments.size() != applicableSegmentCount) {
             return false;
