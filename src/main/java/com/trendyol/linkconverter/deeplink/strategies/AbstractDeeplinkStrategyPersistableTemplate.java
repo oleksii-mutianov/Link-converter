@@ -1,28 +1,11 @@
 package com.trendyol.linkconverter.deeplink.strategies;
 
-import com.trendyol.linkconverter.deeplink.persistence.DeeplinkEntity;
-import com.trendyol.linkconverter.deeplink.persistence.DeeplinkRepository;
-import lombok.RequiredArgsConstructor;
+import com.trendyol.linkconverter.persistence.AbstractPersistableTemplate;
 import org.springframework.web.util.UriComponents;
 
-@RequiredArgsConstructor
-public abstract class AbstractDeeplinkStrategyPersistableTemplate implements DeeplinkStrategy {
-
-    private final DeeplinkRepository deeplinkRepository;
-
-    protected abstract String createNewWeblink(UriComponents deeplinkUri);
-
+public abstract class AbstractDeeplinkStrategyPersistableTemplate extends AbstractPersistableTemplate implements DeeplinkStrategy {
     @Override
     public String getWeblink(UriComponents deeplinkUri) {
-        var deeplink = deeplinkUri.toString();
-        var deeplinkEntity = deeplinkRepository.findById(deeplink);
-        if (deeplinkEntity.isPresent()) {
-            return deeplinkEntity.get().getDeeplink();
-        }
-
-        var weblink = createNewWeblink(deeplinkUri);
-        deeplinkRepository.save(new DeeplinkEntity(deeplink, weblink));
-
-        return weblink;
+        return getResponseLink(deeplinkUri);
     }
 }

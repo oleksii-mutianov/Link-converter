@@ -1,7 +1,6 @@
 package com.trendyol.linkconverter.weblink.strategies;
 
 import com.google.common.base.CharMatcher;
-import com.trendyol.linkconverter.weblink.persistence.WeblinkRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -11,12 +10,8 @@ import java.util.Optional;
 @Component
 public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
 
-    public ProductDetailsWeblinkStrategy(WeblinkRepository weblinkRepository) {
-        super(weblinkRepository);
-    }
-
     @Override
-    public String createNewDeeplink(UriComponents weblinkUri) {
+    protected String createNewResponseLink(UriComponents weblinkUri) {
         var pathSegments = weblinkUri.getPathSegments();
         var lastSegment = pathSegments.get(pathSegments.size() - 1);
         var contentId = CharMatcher.inRange('0', '9').retainFrom(lastSegment);

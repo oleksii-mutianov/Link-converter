@@ -1,6 +1,5 @@
 package com.trendyol.linkconverter.weblink.strategies;
 
-import com.trendyol.linkconverter.weblink.persistence.WeblinkRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -8,12 +7,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class SearchWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
 
-    public SearchWeblinkStrategy(WeblinkRepository weblinkRepository) {
-        super(weblinkRepository);
-    }
-
     @Override
-    public String createNewDeeplink(UriComponents weblinkUri) {
+    protected String createNewResponseLink(UriComponents weblinkUri) {
         var queryParams = weblinkUri.getQueryParams();
 
         var deeplinkUri = UriComponentsBuilder.fromUriString("")
