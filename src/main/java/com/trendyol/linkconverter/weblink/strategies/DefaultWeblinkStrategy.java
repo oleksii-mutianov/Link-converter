@@ -7,12 +7,8 @@ import org.springframework.web.util.UriComponents;
 public class DefaultWeblinkStrategy implements WebLinkStrategy {
 
     @Override
-    public String createDeepLink(UriComponents webLinkUri) {
+    public String getDeepLink(UriComponents webLinkUri) {
         return "ty://?Page=Home";
     }
 
-    @Override
-    public boolean isCacheAvailable() {
-        return false;
-    }
 }
