@@ -1,4 +1,6 @@
 package com.trendyol.linkconverter.dto;
 
-public record WeblinkResponseDto(String weblink) {
+import java.io.Serializable;
+
+public record WeblinkResponseDto(String weblink) implements Serializable {
 }

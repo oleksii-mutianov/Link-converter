@@ -14,8 +14,12 @@ public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistable
     protected String createNewResponseLink(UriComponents deepLinkUri) {
         var queryParams = deepLinkUri.getQueryParams();
 
+        if (queryParams.get("ContentId").size() != 1) {
+            throw new RuntimeException("Multiple 'ContentId' parameter not supported for deeplinks");
+        }
+
         var weblinkUri = UriComponentsBuilder.fromPath("https://www.trendyol.com")
-                .path("brand/name-p-" + queryParams.get("ContentId"))
+                .path("/brand/name-p-" + queryParams.get("ContentId").get(0))
                 .queryParamIfPresent("boutiqueId", Optional.ofNullable(queryParams.get("CampaignId")))
                 .queryParamIfPresent("merchantId", Optional.ofNullable(queryParams.get("MerchantId")))
                 .build();
