@@ -1,6 +1,9 @@
 package com.trendyol.linkconverter.persistence;
 
-import org.springframework.data.keyvalue.repository.KeyValueRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface LinkRepository extends KeyValueRepository<LinkEntity, String> {
+import java.util.Optional;
+
+public interface LinkRepository extends MongoRepository<LinkEntity, String> {
+    Optional<LinkEntity> findByRequestLink(String requestLink);
 }

@@ -12,14 +12,13 @@ public abstract class AbstractPersistableTemplate {
 
     protected String getResponseLink(UriComponents uriComponents) {
         var requestLink = uriComponents.toString();
-        var linkEntity = linkRepository.findById(requestLink);
-        if (linkEntity.isPresent()) {
-            return linkEntity.get().getResponseLink();
-        }
+        var foundResponseLink = linkRepository.findByRequestLink(requestLink).map(LinkEntity::getResponseLink);
 
-        var responseLink = createNewResponseLink(uriComponents);
-        linkRepository.save(new LinkEntity(requestLink, responseLink));
-
-        return responseLink;
+        return foundResponseLink.orElseGet(() -> {
+            var newResponseLink = createNewResponseLink(uriComponents);
+            linkRepository.save(new LinkEntity(requestLink, newResponseLink));
+            return newResponseLink;
+        });
     }
+
 }

@@ -5,3 +5,8 @@ spring:
     port: 6379
     password: ""
     timeout: 60000
+  data:
+    mongodb:
+      database: LinkConverterDb
+      host: localhost
+      port: 27017
