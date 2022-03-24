@@ -1,13 +1,13 @@
 package com.trendyol.linkconverter.deeplink.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum DeeplinkPage {
     PRODUCT("Product"),
     SEARCH("Search"),
