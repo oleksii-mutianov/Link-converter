@@ -60,6 +60,8 @@ class SearchDeeplinkStrategyTest {
     static Stream<Arguments> searchDeeplinkStrategyTestData() {
         return Stream.of(
                 arguments("ty://?Page=Search&Query=elbise", "https://www.trendyol.com/sr?q=elbise"),
+                arguments("ty://?Page=Search&Query=tişört", "https://www.trendyol.com/sr?q=tişört"),
+                arguments("ty://?Page=Search&Query=ti%C5%9F%C3%B6rt", "https://www.trendyol.com/sr?q=ti%C5%9F%C3%B6rt"),
                 arguments("ty://?Page=Search&Query=%C3%BCt%C3%BC", "https://www.trendyol.com/sr?q=%C3%BCt%C3%BC")
         );
     }

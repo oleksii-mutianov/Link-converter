@@ -52,8 +52,11 @@ class ProductDeeplinkStrategyTest {
     @Test
     void shouldThrowExceptionWhenMultipleContentIdPresent() {
         var requestUri = UriComponentsBuilder.fromUriString("ty://?Page=Product&ContentId=1925865&ContentId=1925866").build();
-        var exception = assertThrows(RuntimeException.class, () -> productDeeplinkStrategy.getWeblink(requestUri));
-        assertEquals("Multiple 'ContentId' parameter not supported for deeplinks", exception.getMessage());
+        assertThrows(
+                RuntimeException.class,
+                () -> productDeeplinkStrategy.getWeblink(requestUri),
+                "Multiple 'ContentId' parameter not supported for deeplinks"
+        );
     }
 
     @DisplayName("Should return deeplink for product page")
