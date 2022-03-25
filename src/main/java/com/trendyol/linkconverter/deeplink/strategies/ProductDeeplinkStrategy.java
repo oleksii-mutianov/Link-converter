@@ -11,8 +11,8 @@ import java.util.Optional;
 public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistableTemplate {
 
     @Override
-    protected String createNewResponseLink(UriComponents deepLinkUri) {
-        var queryParams = deepLinkUri.getQueryParams();
+    protected String createNewResponseLink(UriComponents deeplinkUri) {
+        var queryParams = deeplinkUri.getQueryParams();
 
         if (queryParams.get("ContentId").size() != 1) {
             throw new RuntimeException("Multiple 'ContentId' parameter not supported for deeplinks");

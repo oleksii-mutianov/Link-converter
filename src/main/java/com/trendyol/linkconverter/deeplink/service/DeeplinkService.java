@@ -13,12 +13,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class DeeplinkService {
 
-    private final DeeplinkStrategyFactory deepLinkStrategyFactory;
+    private final DeeplinkStrategyFactory deeplinkStrategyFactory;
 
     @Cacheable(CacheNames.DEEPLINK)
     public WeblinkResponseDto convertToWeblink(DeeplinkRequestDto deeplinkRequestDto) {
         var deeplinkUri = UriComponentsBuilder.fromUriString(deeplinkRequestDto.deeplink()).build();
-        var deeplinkStrategy = deepLinkStrategyFactory.getDeeplinkStrategy(deeplinkUri);
+        var deeplinkStrategy = deeplinkStrategyFactory.getDeeplinkStrategy(deeplinkUri);
         var weblink = deeplinkStrategy.getWeblink(deeplinkUri);
         return new WeblinkResponseDto(weblink);
     }

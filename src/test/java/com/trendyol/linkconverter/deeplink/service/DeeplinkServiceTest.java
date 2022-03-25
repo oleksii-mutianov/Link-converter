@@ -21,7 +21,7 @@ class DeeplinkServiceTest {
     private SearchDeeplinkStrategy searchDeeplinkStrategy;
 
     @Mock
-    private DeeplinkStrategyFactory deepLinkStrategyFactory;
+    private DeeplinkStrategyFactory deeplinkStrategyFactory;
 
     @InjectMocks
     private DeeplinkService deeplinkService;
@@ -33,7 +33,7 @@ class DeeplinkServiceTest {
         var weblink = "https://www.trendyol.com/sr?q=elbise";
         var deeplinkUri = UriComponentsBuilder.fromUriString(deeplink).build();
         var expectedWeblinkResponseDto = new WeblinkResponseDto(weblink);
-        when(deepLinkStrategyFactory.getDeeplinkStrategy(deeplinkUri)).thenReturn(searchDeeplinkStrategy);
+        when(deeplinkStrategyFactory.getDeeplinkStrategy(deeplinkUri)).thenReturn(searchDeeplinkStrategy);
         when(searchDeeplinkStrategy.getWeblink(deeplinkUri)).thenReturn(weblink);
 
         // WHEN

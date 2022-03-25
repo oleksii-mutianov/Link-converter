@@ -30,11 +30,11 @@ class DeeplinkStrategyFactoryTest {
     @Spy
     private ProductDeeplinkStrategy productDeeplinkStrategy;
 
-    private DeeplinkStrategyFactory deepLinkStrategyFactory;
+    private DeeplinkStrategyFactory deeplinkStrategyFactory;
 
     @BeforeEach
     void setUp() {
-        deepLinkStrategyFactory = new DeeplinkStrategyFactory(List.of(
+        deeplinkStrategyFactory = new DeeplinkStrategyFactory(List.of(
                 defaultDeeplinkStrategy,
                 searchDeeplinkStrategy,
                 productDeeplinkStrategy
@@ -46,7 +46,7 @@ class DeeplinkStrategyFactoryTest {
     @MethodSource("getStrategyTestData")
     void getStrategy(String link, Class<DeeplinkStrategy> expectedStrategyClass) {
         var uriComponents = UriComponentsBuilder.fromUriString(link).build();
-        var actualStrategyClass = deepLinkStrategyFactory.getDeeplinkStrategy(uriComponents).getClass().getSuperclass();
+        var actualStrategyClass = deeplinkStrategyFactory.getDeeplinkStrategy(uriComponents).getClass().getSuperclass();
         assertEquals(expectedStrategyClass, actualStrategyClass);
     }
 

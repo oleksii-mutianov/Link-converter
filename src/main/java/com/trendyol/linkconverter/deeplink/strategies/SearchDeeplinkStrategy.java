@@ -9,8 +9,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SearchDeeplinkStrategy extends AbstractDeeplinkStrategyPersistableTemplate {
 
     @Override
-    protected String createNewResponseLink(UriComponents deepLinkUri) {
-        var queryParams = deepLinkUri.getQueryParams();
+    protected String createNewResponseLink(UriComponents deeplinkUri) {
+        var queryParams = deeplinkUri.getQueryParams();
 
         var weblinkUri = UriComponentsBuilder.fromUriString("https://www.trendyol.com")
                 .path("/sr")
