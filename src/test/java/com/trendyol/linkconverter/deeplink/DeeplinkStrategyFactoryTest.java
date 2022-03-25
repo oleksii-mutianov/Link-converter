@@ -4,12 +4,13 @@ import com.trendyol.linkconverter.deeplink.strategies.DeeplinkStrategy;
 import com.trendyol.linkconverter.deeplink.strategies.DefaultDeeplinkStrategy;
 import com.trendyol.linkconverter.deeplink.strategies.ProductDeeplinkStrategy;
 import com.trendyol.linkconverter.deeplink.strategies.SearchDeeplinkStrategy;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,21 +23,30 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 @ExtendWith(MockitoExtension.class)
 class DeeplinkStrategyFactoryTest {
 
-    @InjectMocks
-    private DeeplinkStrategyFactory deepLinkStrategyFactory = new DeeplinkStrategyFactory(
-            List.of(
-                    new DefaultDeeplinkStrategy(),
-                    new ProductDeeplinkStrategy(),
-                    new SearchDeeplinkStrategy()
-            )
-    );
+    @Spy
+    private DefaultDeeplinkStrategy defaultDeeplinkStrategy;
+    @Spy
+    private SearchDeeplinkStrategy searchDeeplinkStrategy;
+    @Spy
+    private ProductDeeplinkStrategy productDeeplinkStrategy;
+
+    private DeeplinkStrategyFactory deepLinkStrategyFactory;
+
+    @BeforeEach
+    void setUp() {
+        deepLinkStrategyFactory = new DeeplinkStrategyFactory(List.of(
+                defaultDeeplinkStrategy,
+                searchDeeplinkStrategy,
+                productDeeplinkStrategy
+        ));
+    }
 
     @DisplayName("Should return correct strategy")
     @ParameterizedTest
     @MethodSource("getStrategyTestData")
     void getStrategy(String link, Class<DeeplinkStrategy> expectedStrategyClass) {
         var uriComponents = UriComponentsBuilder.fromUriString(link).build();
-        var actualStrategyClass = deepLinkStrategyFactory.getDeeplinkStrategy(uriComponents).getClass();
+        var actualStrategyClass = deepLinkStrategyFactory.getDeeplinkStrategy(uriComponents).getClass().getSuperclass();
         assertEquals(expectedStrategyClass, actualStrategyClass);
     }
 
