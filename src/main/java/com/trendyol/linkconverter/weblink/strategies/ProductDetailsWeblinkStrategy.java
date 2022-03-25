@@ -17,8 +17,7 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
         var contentId = CharMatcher.inRange('0', '9').retainFrom(lastSegment);
         var queryParams = weblinkUri.getQueryParams();
 
-        var deeplinkUri = UriComponentsBuilder.fromUriString("")
-                .scheme("ty//")
+        var deeplinkUri = UriComponentsBuilder.fromUriString("ty://")
                 .queryParam("Page", "Product")
                 .queryParam("ContentId", contentId)
                 .queryParamIfPresent("CampaignId", Optional.ofNullable(queryParams.get("boutiqueId")))

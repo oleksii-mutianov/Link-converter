@@ -11,8 +11,7 @@ public class SearchWeblinkStrategy extends AbstractWeblinkStrategyPersistableTem
     protected String createNewResponseLink(UriComponents weblinkUri) {
         var queryParams = weblinkUri.getQueryParams();
 
-        var deeplinkUri = UriComponentsBuilder.fromUriString("")
-                .scheme("ty//")
+        var deeplinkUri = UriComponentsBuilder.fromUriString("ty://")
                 .queryParam("Page", "Search")
                 .queryParam("Query", queryParams.get("q"))
                 .build();

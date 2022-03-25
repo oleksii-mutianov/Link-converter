@@ -59,7 +59,7 @@ class ProductDeeplinkStrategyTest {
         );
     }
 
-    @DisplayName("Should return deeplink for product page")
+    @DisplayName("Should return weblink for product page")
     @ParameterizedTest
     @MethodSource("getWeblinkTestData")
     void getWeblink(String requestLink, String expectedResponseLink) {
