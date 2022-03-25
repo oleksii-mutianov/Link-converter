@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -97,21 +98,18 @@ class ProductDetailsWeblinkStrategyTest {
     }
 
     @ParameterizedTest
-    @MethodSource("isWeblinkApplicableMethodSource")
+    @CsvSource({
+            "https://www.trendyol.com/casio/saat-p-1925865?boutiqueId=439892&merchantId=105064, true",
+            "https://www.trendyol.com/casio/erkek-kol-saati-p-1925865, true",
+            "https://www.trendyol.com/casio/erkek-kol-saati-p-1925865?boutiqueId=439892, true",
+            "https://www.trendyol.com/sr?q=elbise, false",
+            "https://www.trendyol.com/sr?q=%C3%BCt%C3%BC, false",
+            "https://www.trendyol.com/Hesabim/Favoriler, false"
+    })
     void isWeblinkApplicable(String requestLink, boolean expected) {
         var requestUri = UriComponentsBuilder.fromUriString(requestLink).build();
         var isApplicable = productDetailsWeblinkStrategy.isWeblinkApplicable(requestUri);
         assertEquals(expected, isApplicable);
     }
 
-    static Stream<Arguments> isWeblinkApplicableMethodSource() {
-        return Stream.of(
-                arguments("https://www.trendyol.com/casio/saat-p-1925865?boutiqueId=439892&merchantId=105064", true),
-                arguments("https://www.trendyol.com/casio/erkek-kol-saati-p-1925865", true),
-                arguments("https://www.trendyol.com/casio/erkek-kol-saati-p-1925865?boutiqueId=439892", true),
-                arguments("https://www.trendyol.com/sr?q=elbise", false),
-                arguments("https://www.trendyol.com/sr?q=%C3%BCt%C3%BC", false),
-                arguments("https://www.trendyol.com/Hesabim/Favoriler", false)
-        );
-    }
 }
