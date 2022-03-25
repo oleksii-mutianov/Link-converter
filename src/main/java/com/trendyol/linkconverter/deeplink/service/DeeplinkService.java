@@ -1,7 +1,7 @@
 package com.trendyol.linkconverter.deeplink.service;
 
 import com.trendyol.linkconverter.constants.CacheNames;
-import com.trendyol.linkconverter.deeplink.DeepLinkStrategyFactory;
+import com.trendyol.linkconverter.deeplink.DeeplinkStrategyFactory;
 import com.trendyol.linkconverter.dto.DeeplinkRequestDto;
 import com.trendyol.linkconverter.dto.WeblinkResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class DeeplinkService {
 
-    private final DeepLinkStrategyFactory deepLinkStrategyFactory;
+    private final DeeplinkStrategyFactory deepLinkStrategyFactory;
 
     @Cacheable(CacheNames.DEEPLINK)
     public WeblinkResponseDto convertToWeblink(DeeplinkRequestDto deeplinkRequestDto) {

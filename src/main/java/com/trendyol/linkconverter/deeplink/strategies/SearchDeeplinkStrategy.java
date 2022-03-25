@@ -12,7 +12,7 @@ public class SearchDeeplinkStrategy extends AbstractDeeplinkStrategyPersistableT
     protected String createNewResponseLink(UriComponents deepLinkUri) {
         var queryParams = deepLinkUri.getQueryParams();
 
-        var weblinkUri = UriComponentsBuilder.fromPath("https://www.trendyol.com")
+        var weblinkUri = UriComponentsBuilder.fromUriString("https://www.trendyol.com")
                 .path("/sr")
                 .queryParam("q", queryParams.get("Query"))
                 .build();
