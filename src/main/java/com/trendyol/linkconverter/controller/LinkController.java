@@ -6,6 +6,8 @@ import com.trendyol.linkconverter.dto.DeeplinkResponseDto;
 import com.trendyol.linkconverter.dto.WeblinkRequestDto;
 import com.trendyol.linkconverter.dto.WeblinkResponseDto;
 import com.trendyol.linkconverter.weblink.sevice.WeblinkService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Tag(name = "Link Converter API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/converter")
@@ -22,11 +25,13 @@ public class LinkController {
     private final WeblinkService weblinkService;
     private final DeeplinkService deeplinkService;
 
+    @Operation(summary = "Convert weblink to deeplink")
     @PostMapping("weblink-to-deeplink")
     public DeeplinkResponseDto convertToDeeplink(@RequestBody @Valid WeblinkRequestDto weblinkRequestDto) {
         return weblinkService.convertToDeeplink(weblinkRequestDto);
     }
 
+    @Operation(summary = "Convert deeplink to weblink")
     @PostMapping("deeplink-to-weblink")
     public WeblinkResponseDto convertToWeblink(@RequestBody @Valid DeeplinkRequestDto deeplinkRequestDto) {
         return deeplinkService.convertToWeblink(deeplinkRequestDto);
