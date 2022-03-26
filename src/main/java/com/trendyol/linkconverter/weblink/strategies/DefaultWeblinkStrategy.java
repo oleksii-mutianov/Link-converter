@@ -7,6 +7,9 @@ import org.springframework.web.util.UriComponents;
 @Component
 public class DefaultWeblinkStrategy implements WeblinkStrategy {
 
+    /**
+     * Returns default deeplink.
+     */
     @Override
     public String getDeeplink(UriComponents weblinkUri) {
         return Deeplink.DEFAULT_PAGE;

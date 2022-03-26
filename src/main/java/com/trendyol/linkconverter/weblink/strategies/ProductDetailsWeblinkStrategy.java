@@ -13,6 +13,9 @@ import java.util.Optional;
 @Component
 public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
 
+    /**
+     * Converts product page weblink to deeplink
+     */
     @Override
     protected String createNewResponseLink(UriComponents weblinkUri) {
         var pathSegments = weblinkUri.getPathSegments();
@@ -30,6 +33,13 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
         return deeplinkUri.toString();
     }
 
+    // TODO: check that 1st segment is 'brand' or use regexp
+
+    /**
+     * Returns true if the weblink is a product page weblink.
+     * It means that second segment of the weblink contains "-p-".
+     * For example: https://www.trendyol.com/brand/name-p-1925865
+     */
     @Override
     public boolean isWeblinkApplicable(UriComponents weblinkUri) {
         var pathSegments = weblinkUri.getPathSegments();

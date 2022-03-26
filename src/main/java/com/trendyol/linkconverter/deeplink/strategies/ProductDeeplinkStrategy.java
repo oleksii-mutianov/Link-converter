@@ -14,6 +14,9 @@ import java.util.Optional;
 @Component
 public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistableTemplate {
 
+    /**
+     * Converts product page deeplink to weblink
+     */
     @Override
     protected String createNewResponseLink(UriComponents deeplinkUri) {
         var queryParams = deeplinkUri.getQueryParams();

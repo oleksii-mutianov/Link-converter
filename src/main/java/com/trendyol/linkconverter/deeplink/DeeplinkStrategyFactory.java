@@ -24,6 +24,9 @@ public class DeeplinkStrategyFactory {
                 .collect(toMap(DeeplinkStrategy::getApplicableDeeplinkPage, Function.identity()));
     }
 
+    /**
+     * Get the appropriate strategy for the given deeplink page.
+     */
     public DeeplinkStrategy getDeeplinkStrategy(UriComponents deeplinkUri) {
         var page = deeplinkUri.getQueryParams().get(Deeplink.QueryParams.PAGE);
         if (page.size() != 1) {

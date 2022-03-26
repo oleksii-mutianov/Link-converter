@@ -10,6 +10,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class SearchWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
 
+    /**
+     * Converts search page weblink to deeplink
+     */
     @Override
     protected String createNewResponseLink(UriComponents weblinkUri) {
         var queryParams = weblinkUri.getQueryParams();
@@ -22,6 +25,11 @@ public class SearchWeblinkStrategy extends AbstractWeblinkStrategyPersistableTem
         return deeplinkUri.toString();
     }
 
+    /**
+     * Returns true if the weblink is a search weblink.
+     * It means that the weblink has the only one segment "/sr".
+     * For example: https://www.trendyol.com/sr?q=elbise
+     */
     @Override
     public boolean isWeblinkApplicable(UriComponents weblinkUri) {
         var pathSegments = weblinkUri.getPathSegments();

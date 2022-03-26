@@ -10,6 +10,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class SearchDeeplinkStrategy extends AbstractDeeplinkStrategyPersistableTemplate {
 
+    /**
+     * Converts search page deeplink to weblink
+     */
     @Override
     protected String createNewResponseLink(UriComponents deeplinkUri) {
         var queryParams = deeplinkUri.getQueryParams();

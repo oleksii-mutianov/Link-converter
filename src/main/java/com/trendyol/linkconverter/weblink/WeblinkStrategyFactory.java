@@ -14,6 +14,9 @@ public class WeblinkStrategyFactory {
     private final List<WeblinkStrategy> weblinkStrategies;
     private final DefaultWeblinkStrategy defaultWeblinkStrategy;
 
+    /**
+     * Get the appropriate strategy for the given weblink.
+     */
     public WeblinkStrategy getWeblinkStrategy(UriComponents weblinkUri) {
         return weblinkStrategies.stream()
                 .filter(strategy -> strategy.isWeblinkApplicable(weblinkUri))

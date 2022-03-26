@@ -15,6 +15,9 @@ public class DeeplinkService {
 
     private final DeeplinkStrategyFactory deeplinkStrategyFactory;
 
+    /**
+     * Convert deeplink to weblink
+     */
     @Cacheable(CacheNames.DEEPLINK)
     public WeblinkResponseDto convertToWeblink(DeeplinkRequestDto deeplinkRequestDto) {
         var deeplinkUri = UriComponentsBuilder.fromUriString(deeplinkRequestDto.deeplink()).build();
