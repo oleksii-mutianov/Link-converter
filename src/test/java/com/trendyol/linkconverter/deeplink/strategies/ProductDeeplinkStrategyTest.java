@@ -1,5 +1,6 @@
 package com.trendyol.linkconverter.deeplink.strategies;
 
+import com.trendyol.linkconverter.exception.InvalidParameterException;
 import com.trendyol.linkconverter.persistence.LinkEntity;
 import com.trendyol.linkconverter.persistence.LinkRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,8 +53,8 @@ class ProductDeeplinkStrategyTest {
     @Test
     void shouldThrowExceptionWhenMultipleContentIdPresent() {
         var requestUri = UriComponentsBuilder.fromUriString("ty://?Page=Product&ContentId=1925865&ContentId=1925866").build();
-        assertThrows(
-                RuntimeException.class,
+        assertThrowsExactly(
+                InvalidParameterException.class,
                 () -> productDeeplinkStrategy.getWeblink(requestUri),
                 "Multiple 'ContentId' parameter not supported for deeplinks"
         );

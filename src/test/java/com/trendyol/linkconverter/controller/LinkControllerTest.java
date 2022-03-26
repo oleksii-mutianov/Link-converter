@@ -5,20 +5,24 @@ import com.trendyol.linkconverter.dto.DeeplinkRequestDto;
 import com.trendyol.linkconverter.dto.DeeplinkResponseDto;
 import com.trendyol.linkconverter.dto.WeblinkRequestDto;
 import com.trendyol.linkconverter.dto.WeblinkResponseDto;
+import com.trendyol.linkconverter.exception.InvalidParameterException;
 import com.trendyol.linkconverter.weblink.sevice.WeblinkService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ImportAutoConfiguration(classes = ResponseStatusExceptionResolver.class)
 @WebMvcTest(LinkController.class)
 @AutoConfigureMockMvc(printOnlyOnFailure = false)
 class LinkControllerTest {
@@ -87,5 +91,27 @@ class LinkControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(expectedResponseBody));
+    }
+
+    @Test
+    void shouldReturn400WhenInvalidParameterExceptionThrown() throws Exception {
+        // GIVEN
+        var requestBody = """
+                {
+                    "deeplink": "ty://?Page=Product&Page=Search"
+                }
+                """;
+
+        when(deeplinkService.convertToWeblink(new DeeplinkRequestDto("ty://?Page=Product&Page=Search")))
+                .thenThrow(new InvalidParameterException("Multiple 'Page' parameters in deeplinks not supported"));
+
+        // WHEN
+        var request = post("/v1/converter/deeplink-to-weblink")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody);
+
+        // THEN
+        mockMvc.perform(request)
+                .andExpect(status().isBadRequest());
     }
 }

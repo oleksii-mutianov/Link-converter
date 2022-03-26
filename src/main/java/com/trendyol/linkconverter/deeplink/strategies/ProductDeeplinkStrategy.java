@@ -1,6 +1,7 @@
 package com.trendyol.linkconverter.deeplink.strategies;
 
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
+import com.trendyol.linkconverter.exception.InvalidParameterException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,7 +16,7 @@ public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistable
         var queryParams = deeplinkUri.getQueryParams();
 
         if (queryParams.get("ContentId").size() != 1) {
-            throw new RuntimeException("Multiple 'ContentId' parameter not supported for deeplinks");
+            throw new InvalidParameterException("Multiple 'ContentId' parameter not supported for deeplinks");
         }
 
         var weblinkUri = UriComponentsBuilder.fromUriString("https://www.trendyol.com")

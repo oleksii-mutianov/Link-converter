@@ -2,6 +2,7 @@ package com.trendyol.linkconverter.deeplink;
 
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import com.trendyol.linkconverter.deeplink.strategies.DeeplinkStrategy;
+import com.trendyol.linkconverter.exception.InvalidParameterException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 
@@ -24,7 +25,7 @@ public class DeeplinkStrategyFactory {
     public DeeplinkStrategy getDeeplinkStrategy(UriComponents deeplinkUri) {
         var page = deeplinkUri.getQueryParams().get("Page");
         if (page.size() != 1) {
-            throw new RuntimeException("Multiple 'Page' parameters in deeplinks not supported");
+            throw new InvalidParameterException("Multiple 'Page' parameters in deeplinks not supported");
         }
 
         return strategies.get(DeeplinkPage.fromString(page.get(0)));

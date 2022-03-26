@@ -4,8 +4,10 @@ import com.trendyol.linkconverter.deeplink.strategies.DeeplinkStrategy;
 import com.trendyol.linkconverter.deeplink.strategies.DefaultDeeplinkStrategy;
 import com.trendyol.linkconverter.deeplink.strategies.ProductDeeplinkStrategy;
 import com.trendyol.linkconverter.deeplink.strategies.SearchDeeplinkStrategy;
+import com.trendyol.linkconverter.exception.InvalidParameterException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +42,16 @@ class DeeplinkStrategyFactoryTest {
                 searchDeeplinkStrategy,
                 productDeeplinkStrategy
         ));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenMultiplePageParameterPresent() {
+        var uriComponents = UriComponentsBuilder.fromUriString("ty://?Page=Product&Page=Search").build();
+        assertThrowsExactly(
+                InvalidParameterException.class,
+                () -> deeplinkStrategyFactory.getDeeplinkStrategy(uriComponents),
+                "Multiple 'Page' parameters in deeplinks not supported"
+        );
     }
 
     @DisplayName("Should return correct strategy")

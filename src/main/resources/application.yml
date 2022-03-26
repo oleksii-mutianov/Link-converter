@@ -10,3 +10,6 @@ spring:
       database: LinkConverterDb
       host: localhost
       port: 27017
+server:
+  error:
+    include-stacktrace: never
