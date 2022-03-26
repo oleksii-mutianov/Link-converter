@@ -1,5 +1,8 @@
 package com.trendyol.linkconverter.deeplink.strategies;
 
+import com.trendyol.linkconverter.constants.Deeplink;
+import com.trendyol.linkconverter.constants.ErrorMessage;
+import com.trendyol.linkconverter.constants.Weblink;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import com.trendyol.linkconverter.exception.InvalidParameterException;
 import org.springframework.stereotype.Component;
@@ -15,14 +18,14 @@ public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistable
     protected String createNewResponseLink(UriComponents deeplinkUri) {
         var queryParams = deeplinkUri.getQueryParams();
 
-        if (queryParams.get("ContentId").size() != 1) {
-            throw new InvalidParameterException("Multiple 'ContentId' parameter not supported for deeplinks");
+        if (queryParams.get(Deeplink.QueryParams.CONTENT_ID).size() != 1) {
+            throw new InvalidParameterException(ErrorMessage.MULTIPLE_CONTENT_ID);
         }
 
-        var weblinkUri = UriComponentsBuilder.fromUriString("https://www.trendyol.com")
-                .path("/brand/name-p-" + queryParams.get("ContentId").get(0))
-                .queryParamIfPresent("boutiqueId", Optional.ofNullable(queryParams.get("CampaignId")))
-                .queryParamIfPresent("merchantId", Optional.ofNullable(queryParams.get("MerchantId")))
+        var weblinkUri = UriComponentsBuilder.fromUriString(Weblink.BASE_URI)
+                .pathSegment(Weblink.PathSegments.BRAND, Weblink.PathSegments.NAME_P + queryParams.get(Deeplink.QueryParams.CONTENT_ID).get(0))
+                .queryParamIfPresent(Weblink.QueryParam.BOUTIQUE_ID, Optional.ofNullable(queryParams.get(Deeplink.QueryParams.CAMPAIGN_ID)))
+                .queryParamIfPresent(Weblink.QueryParam.MERCHANT_ID, Optional.ofNullable(queryParams.get(Deeplink.QueryParams.MERCHANT_ID)))
                 .build();
 
         return weblinkUri.toString();

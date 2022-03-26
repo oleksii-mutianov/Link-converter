@@ -1,5 +1,7 @@
 package com.trendyol.linkconverter.deeplink;
 
+import com.trendyol.linkconverter.constants.Deeplink;
+import com.trendyol.linkconverter.constants.ErrorMessage;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import com.trendyol.linkconverter.deeplink.strategies.DeeplinkStrategy;
 import com.trendyol.linkconverter.exception.InvalidParameterException;
@@ -23,9 +25,9 @@ public class DeeplinkStrategyFactory {
     }
 
     public DeeplinkStrategy getDeeplinkStrategy(UriComponents deeplinkUri) {
-        var page = deeplinkUri.getQueryParams().get("Page");
+        var page = deeplinkUri.getQueryParams().get(Deeplink.QueryParams.PAGE);
         if (page.size() != 1) {
-            throw new InvalidParameterException("Multiple 'Page' parameters in deeplinks not supported");
+            throw new InvalidParameterException(ErrorMessage.MULTIPLE_PAGE);
         }
 
         return strategies.get(DeeplinkPage.fromString(page.get(0)));

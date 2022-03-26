@@ -1,6 +1,9 @@
 package com.trendyol.linkconverter.weblink.strategies;
 
 import com.google.common.base.CharMatcher;
+import com.trendyol.linkconverter.constants.Deeplink;
+import com.trendyol.linkconverter.constants.Weblink;
+import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,11 +20,11 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
         var contentId = CharMatcher.inRange('0', '9').retainFrom(lastSegment);
         var queryParams = weblinkUri.getQueryParams();
 
-        var deeplinkUri = UriComponentsBuilder.fromUriString("ty://")
-                .queryParam("Page", "Product")
-                .queryParam("ContentId", contentId)
-                .queryParamIfPresent("CampaignId", Optional.ofNullable(queryParams.get("boutiqueId")))
-                .queryParamIfPresent("MerchantId", Optional.ofNullable(queryParams.get("merchantId")))
+        var deeplinkUri = UriComponentsBuilder.fromUriString(Deeplink.BASE_URI)
+                .queryParam(Deeplink.QueryParams.PAGE, DeeplinkPage.PRODUCT.getValue())
+                .queryParam(Deeplink.QueryParams.CONTENT_ID, contentId)
+                .queryParamIfPresent(Deeplink.QueryParams.CAMPAIGN_ID, Optional.ofNullable(queryParams.get(Weblink.QueryParam.BOUTIQUE_ID)))
+                .queryParamIfPresent(Deeplink.QueryParams.MERCHANT_ID, Optional.ofNullable(queryParams.get(Weblink.QueryParam.MERCHANT_ID)))
                 .build();
 
         return deeplinkUri.toString();
@@ -36,6 +39,6 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
         }
 
         var lastSegmentIndex = 1;
-        return pathSegments.get(lastSegmentIndex).contains("-p-");
+        return pathSegments.get(lastSegmentIndex).contains(Weblink.PathSegments.PRODUCT_DELIMITER);
     }
 }
