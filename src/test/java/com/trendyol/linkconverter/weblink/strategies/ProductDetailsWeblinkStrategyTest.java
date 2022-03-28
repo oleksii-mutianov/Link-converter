@@ -101,10 +101,14 @@ class ProductDetailsWeblinkStrategyTest {
     @CsvSource({
             "https://www.trendyol.com/casio/saat-p-1925865?boutiqueId=439892&merchantId=105064, true",
             "https://www.trendyol.com/casio/erkek-kol-saati-p-1925865, true",
+            "https://www.trendyol.com/tişört/tişört-p-1925865, true",
             "https://www.trendyol.com/casio/erkek-kol-saati-p-1925865?boutiqueId=439892, true",
             "https://www.trendyol.com/sr?q=elbise, false",
             "https://www.trendyol.com/sr?q=%C3%BCt%C3%BC, false",
-            "https://www.trendyol.com/Hesabim/Favoriler, false"
+            "https://www.trendyol.com/Hesabim/Favoriler, false",
+            "https://www.trendyol.com/casio/erkek-kol-saati-p-1925865hr, false",
+            "https://www.trendyol.com/casio/erkek-1925865, false",
+            "https://www.trendyol.com/casio/-p-1925865, false",
     })
     void isWeblinkApplicable(String requestLink, boolean expected) {
         var requestUri = UriComponentsBuilder.fromUriString(requestLink).build();

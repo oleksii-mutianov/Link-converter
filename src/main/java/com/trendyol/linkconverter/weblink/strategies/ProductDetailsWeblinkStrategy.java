@@ -9,9 +9,15 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Component
 public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
+
+    private static final String ANY_SYMBOLS = ".+";
+    private static final String ANY_DIGITS = "[0-9]+";
+    private static final Pattern VALID_PRODUCT_LINK_SEGMENT_PATTERN =
+            Pattern.compile(ANY_SYMBOLS + Weblink.PathSegments.PRODUCT_DELIMITER + ANY_DIGITS);
 
     /**
      * Converts product page weblink to deeplink
@@ -33,12 +39,10 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
         return deeplinkUri.toString();
     }
 
-    // TODO: check that 1st segment is 'brand' or use regexp
-
     /**
      * Returns true if the weblink is a product page weblink.
      * It means that second segment of the weblink contains "-p-".
-     * For example: https://www.trendyol.com/brand/name-p-1925865
+     * For example: https://www.trendyol.com/casio/erkek-kol-saati-p-1925865
      */
     @Override
     public boolean isWeblinkApplicable(UriComponents weblinkUri) {
@@ -49,6 +53,6 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
         }
 
         var lastSegmentIndex = 1;
-        return pathSegments.get(lastSegmentIndex).contains(Weblink.PathSegments.PRODUCT_DELIMITER);
+        return VALID_PRODUCT_LINK_SEGMENT_PATTERN.matcher(pathSegments.get(lastSegmentIndex)).matches();
     }
 }
