@@ -1,8 +1,10 @@
 package com.trendyol.linkconverter.persistence;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.util.UriComponents;
 
+@Slf4j
 public abstract class AbstractPersistableTemplate {
 
     @Autowired
@@ -26,8 +28,12 @@ public abstract class AbstractPersistableTemplate {
         var requestLink = uriComponents.toString();
         var foundResponseLink = linkRepository.findByRequestLink(requestLink).map(LinkEntity::getResponseLink);
 
+        foundResponseLink.ifPresent(responseLink -> log.info("Found response link: {}", responseLink));
+
         return foundResponseLink.orElseGet(() -> {
+            log.info("Response link not found for request link: {}", requestLink);
             var newResponseLink = createNewResponseLink(uriComponents);
+            log.info("Created new response link: {}", newResponseLink);
             linkRepository.save(new LinkEntity(requestLink, newResponseLink));
             return newResponseLink;
         });
