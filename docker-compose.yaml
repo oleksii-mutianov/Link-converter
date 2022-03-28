@@ -32,7 +32,7 @@ services:
     ports:
       - "8080:8080"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health", "grep", "\"status\":\"UP\"" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -41,8 +41,7 @@ services:
       - mongodb
       - redis
     environment:
-      SPRING_DATA_MONGODB_HOST: mongodb
-      SPRING_REDIS_HOST: redis
+      SPRING_PROFILES_ACTIVE: dev
 
 volumes:
   mongodb_data:
