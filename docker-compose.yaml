@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:5.0.6
+    container_name: mongodb_link_converter_container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.runCommand('ping').ok" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  redis:
+    image: redis:6.2.6
+    container_name: redis_link_converter_container
+    ports:
+      - "6379:6379"
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  link_converter:
+    build:
+      context: .
+      dockerfile: Dockerfile-local
+    container_name: link_converter_container
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health", "grep", "\"status\":\"UP\"" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: always
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_REDIS_HOST: redis
+
+volumes:
+  mongodb_data:

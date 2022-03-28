@@ -1,0 +1,17 @@
+FROM bellsoft/liberica-openjdk-alpine:17.0.2 as build
+
+COPY ./build.gradle .
+COPY ./settings.gradle .
+COPY ./gradlew .
+COPY ./src ./src
+COPY ./gradle ./gradle
+
+RUN ./gradlew bootJar --no-daemon
+
+FROM bellsoft/liberica-openjre-alpine:17.0.2
+RUN apk --no-cache add curl
+COPY --from=build ./build/libs/*.jar /app/link-converter.jar
+
+EXPOSE 8080
+
+CMD java $JAVA_OPTS -jar /app/link-converter.jar

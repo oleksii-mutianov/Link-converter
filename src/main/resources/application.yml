@@ -13,3 +13,13 @@ spring:
 server:
   error:
     include-stacktrace: never
+
+management:
+  endpoint:
+    health:
+      group:
+        connections:
+          include:
+            - mongo
+            - redis
+          show-details: always
