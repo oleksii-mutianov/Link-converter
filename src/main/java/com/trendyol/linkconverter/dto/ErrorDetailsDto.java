@@ -43,6 +43,6 @@ public class ErrorDetailsDto {
      */
     @JsonIgnore
     public ResponseEntity<ErrorDetailsDto> getResponseEntity() {
-        return new ResponseEntity<>(this, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(status).body(this);
     }
 }
