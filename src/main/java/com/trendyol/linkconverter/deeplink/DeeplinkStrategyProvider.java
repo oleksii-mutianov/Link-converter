@@ -15,11 +15,11 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toMap;
 
 @Component
-public class DeeplinkStrategyFactory {
+public class DeeplinkStrategyProvider {
 
     private final Map<DeeplinkPage, DeeplinkStrategy> strategies;
 
-    public DeeplinkStrategyFactory(List<DeeplinkStrategy> strategies) {
+    public DeeplinkStrategyProvider(List<DeeplinkStrategy> strategies) {
         this.strategies = strategies.stream()
                 .collect(toMap(DeeplinkStrategy::getApplicableDeeplinkPage, Function.identity()));
     }

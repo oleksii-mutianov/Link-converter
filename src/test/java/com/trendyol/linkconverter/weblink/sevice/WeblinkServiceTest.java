@@ -2,7 +2,7 @@ package com.trendyol.linkconverter.weblink.sevice;
 
 import com.trendyol.linkconverter.dto.DeeplinkResponseDto;
 import com.trendyol.linkconverter.dto.WeblinkRequestDto;
-import com.trendyol.linkconverter.weblink.WeblinkStrategyFactory;
+import com.trendyol.linkconverter.weblink.WeblinkStrategyProvider;
 import com.trendyol.linkconverter.weblink.strategies.SearchWeblinkStrategy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ class WeblinkServiceTest {
     private SearchWeblinkStrategy searchWeblinkStrategy;
 
     @Mock
-    private WeblinkStrategyFactory weblinkStrategyFactory;
+    private WeblinkStrategyProvider weblinkStrategyProvider;
 
     @InjectMocks
     private WeblinkService weblinkService;
@@ -33,7 +33,7 @@ class WeblinkServiceTest {
         var weblink = "ty://?Page=Search&Query=elbise";
         var deeplinkUri = UriComponentsBuilder.fromUriString(deeplink).build();
         var expectedWeblinkResponseDto = new DeeplinkResponseDto(weblink);
-        when(weblinkStrategyFactory.getWeblinkStrategy(deeplinkUri)).thenReturn(searchWeblinkStrategy);
+        when(weblinkStrategyProvider.getWeblinkStrategy(deeplinkUri)).thenReturn(searchWeblinkStrategy);
         when(searchWeblinkStrategy.getDeeplink(deeplinkUri)).thenReturn(weblink);
 
         // WHEN

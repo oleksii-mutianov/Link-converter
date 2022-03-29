@@ -10,7 +10,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class WeblinkStrategyFactory {
+public class WeblinkStrategyProvider {
     private final List<WeblinkStrategy> weblinkStrategies;
     private final DefaultWeblinkStrategy defaultWeblinkStrategy;
 

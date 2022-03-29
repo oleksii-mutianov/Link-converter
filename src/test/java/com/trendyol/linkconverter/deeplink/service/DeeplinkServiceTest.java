@@ -1,6 +1,6 @@
 package com.trendyol.linkconverter.deeplink.service;
 
-import com.trendyol.linkconverter.deeplink.DeeplinkStrategyFactory;
+import com.trendyol.linkconverter.deeplink.DeeplinkStrategyProvider;
 import com.trendyol.linkconverter.deeplink.strategies.SearchDeeplinkStrategy;
 import com.trendyol.linkconverter.dto.DeeplinkRequestDto;
 import com.trendyol.linkconverter.dto.WeblinkResponseDto;
@@ -21,7 +21,7 @@ class DeeplinkServiceTest {
     private SearchDeeplinkStrategy searchDeeplinkStrategy;
 
     @Mock
-    private DeeplinkStrategyFactory deeplinkStrategyFactory;
+    private DeeplinkStrategyProvider deeplinkStrategyProvider;
 
     @InjectMocks
     private DeeplinkService deeplinkService;
@@ -33,7 +33,7 @@ class DeeplinkServiceTest {
         var weblink = "https://www.trendyol.com/sr?q=elbise";
         var deeplinkUri = UriComponentsBuilder.fromUriString(deeplink).build();
         var expectedWeblinkResponseDto = new WeblinkResponseDto(weblink);
-        when(deeplinkStrategyFactory.getDeeplinkStrategy(deeplinkUri)).thenReturn(searchDeeplinkStrategy);
+        when(deeplinkStrategyProvider.getDeeplinkStrategy(deeplinkUri)).thenReturn(searchDeeplinkStrategy);
         when(searchDeeplinkStrategy.getWeblink(deeplinkUri)).thenReturn(weblink);
 
         // WHEN

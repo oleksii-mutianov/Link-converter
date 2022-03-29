@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @ExtendWith(MockitoExtension.class)
-class WeblinkStrategyFactoryTest {
+class WeblinkStrategyProviderTest {
 
     @Spy
     private DefaultWeblinkStrategy defaultWeblinkStrategy;
@@ -31,19 +31,19 @@ class WeblinkStrategyFactoryTest {
     @Spy
     private ProductDetailsWeblinkStrategy productDetailsWeblinkStrategy;
 
-    private WeblinkStrategyFactory weblinkStrategyFactory;
+    private WeblinkStrategyProvider weblinkStrategyProvider;
 
     @BeforeEach
     void setUp() {
         var weblinkStrategies = List.of(defaultWeblinkStrategy, searchWeblinkStrategy, productDetailsWeblinkStrategy);
-        weblinkStrategyFactory = new WeblinkStrategyFactory(weblinkStrategies, defaultWeblinkStrategy);
+        weblinkStrategyProvider = new WeblinkStrategyProvider(weblinkStrategies, defaultWeblinkStrategy);
     }
 
     @ParameterizedTest
     @MethodSource("getWeblinkStrategyMethodSource")
     void getWeblinkStrategy(String link, Class<? extends WeblinkStrategy> expectedStrategyClass) {
         var uriComponents = UriComponentsBuilder.fromUriString(link).build();
-        var actualStrategyClass = weblinkStrategyFactory.getWeblinkStrategy(uriComponents).getClass().getSuperclass();
+        var actualStrategyClass = weblinkStrategyProvider.getWeblinkStrategy(uriComponents).getClass().getSuperclass();
         assertEquals(actualStrategyClass, expectedStrategyClass);
     }
 

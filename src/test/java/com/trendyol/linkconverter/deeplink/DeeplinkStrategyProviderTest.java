@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @ExtendWith(MockitoExtension.class)
-class DeeplinkStrategyFactoryTest {
+class DeeplinkStrategyProviderTest {
 
     @Spy
     private DefaultDeeplinkStrategy defaultDeeplinkStrategy;
@@ -33,11 +33,11 @@ class DeeplinkStrategyFactoryTest {
     @Spy
     private ProductDeeplinkStrategy productDeeplinkStrategy;
 
-    private DeeplinkStrategyFactory deeplinkStrategyFactory;
+    private DeeplinkStrategyProvider deeplinkStrategyProvider;
 
     @BeforeEach
     void setUp() {
-        deeplinkStrategyFactory = new DeeplinkStrategyFactory(List.of(
+        deeplinkStrategyProvider = new DeeplinkStrategyProvider(List.of(
                 defaultDeeplinkStrategy,
                 searchDeeplinkStrategy,
                 productDeeplinkStrategy
@@ -49,7 +49,7 @@ class DeeplinkStrategyFactoryTest {
         var uriComponents = UriComponentsBuilder.fromUriString("ty://?Page=Product&Page=Search").build();
         assertThrowsExactly(
                 InvalidParameterException.class,
-                () -> deeplinkStrategyFactory.getDeeplinkStrategy(uriComponents),
+                () -> deeplinkStrategyProvider.getDeeplinkStrategy(uriComponents),
                 "Multiple 'Page' parameters in deeplinks not supported"
         );
     }
@@ -59,7 +59,7 @@ class DeeplinkStrategyFactoryTest {
     @MethodSource("getStrategyTestData")
     void getStrategy(String link, Class<DeeplinkStrategy> expectedStrategyClass) {
         var uriComponents = UriComponentsBuilder.fromUriString(link).build();
-        var actualStrategyClass = deeplinkStrategyFactory.getDeeplinkStrategy(uriComponents).getClass().getSuperclass();
+        var actualStrategyClass = deeplinkStrategyProvider.getDeeplinkStrategy(uriComponents).getClass().getSuperclass();
         assertEquals(expectedStrategyClass, actualStrategyClass);
     }
 
