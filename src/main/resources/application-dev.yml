@@ -1,6 +1,5 @@
 spring:
   redis:
     host: redis
-  data:
-    mongodb:
-      host: mongodb
+  datasource:
+    url: jdbc:postgresql://postgres:5432/link_converter?useUnicode=true&characterEncoding=utf-8

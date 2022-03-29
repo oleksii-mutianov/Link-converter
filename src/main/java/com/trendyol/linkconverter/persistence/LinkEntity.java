@@ -1,19 +1,39 @@
 package com.trendyol.linkconverter.persistence;
 
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.redis.core.index.Indexed;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 /**
  * Entity class for storing converted links
  */
-@Data
-@Document
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
+@Entity
+@Table(
+        name = "links",
+        indexes = @Index(columnList = "requestLink", unique = true)
+)
 public class LinkEntity {
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    @Indexed
-    private final String requestLink;
-    private final String responseLink;
+    private String requestLink;
+    private String responseLink;
+
+    public LinkEntity(String requestLink, String responseLink) {
+        this.requestLink = requestLink;
+        this.responseLink = responseLink;
+    }
 }

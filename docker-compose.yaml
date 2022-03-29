@@ -1,15 +1,19 @@
 version: "3.9"
 services:
-  mongodb:
-    image: mongo:5.0.6
-    container_name: mongodb_link_converter_container
+  postgres:
+    image: postgres:14.2
+    container_name: postgres_link_converter_container
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=link_converter
     ports:
-      - "27017:27017"
+      - "5432:5432"
     volumes:
-      - mongodb_data:/data/db
+      - pg_data:/var/lib/postgresql
     restart: always
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.runCommand('ping').ok" ]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -38,10 +42,10 @@ services:
       retries: 3
     restart: always
     depends_on:
-      - mongodb
+      - postgres
       - redis
     environment:
       SPRING_PROFILES_ACTIVE: dev
 
 volumes:
-  mongodb_data:
+  pg_data:

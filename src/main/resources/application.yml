@@ -5,11 +5,16 @@ spring:
     port: 6379
     password: ""
     timeout: 60000
-  data:
-    mongodb:
-      database: LinkConverterDb
-      host: localhost
-      port: 27017
+  datasource:
+    url: jdbc:postgresql://localhost:5432/link_converter?useUnicode=true&characterEncoding=utf-8
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+
 server:
   error:
     include-stacktrace: never
@@ -20,6 +25,6 @@ management:
       group:
         connections:
           include:
-            - mongo
+            - db
             - redis
           show-details: always

@@ -54,7 +54,7 @@ docker build -t link-converter -f Dockerfile-local .
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=dev -d --name link-converter link-converter
 ```
 
-Ensure you have mongodb available on `mongodb:27017` and redis on `redis:6379`
+Ensure you have postgres available on `postgres:5432` and redis on `redis:6379`
 
 ### Without docker
 
@@ -69,7 +69,7 @@ Prerequisites:
 java -jar build/libs/link-converter-0.0.1-SNAPSHOT.jar
 ```
 
-Ensure you have mongodb available on `localhost:27017` and redis on `localhost:6379`
+Ensure you have postgres available on `localhost:5432` and redis on `localhost:6379`
 
 ## API documentation
 
