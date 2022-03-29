@@ -11,11 +11,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 
+/**
+ * Strategy for product deeplinks.
+ */
 @Component
 public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistableTemplate {
 
     /**
      * Converts product page deeplink to weblink
+     *
+     * @param deeplinkUri deeplink to be converted
+     * @return weblink
      */
     @Override
     protected String createNewResponseLink(UriComponents deeplinkUri) {
@@ -34,6 +40,11 @@ public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistable
         return weblinkUri.toString();
     }
 
+    /**
+     * Returns {@link DeeplinkPage#PRODUCT} that means that this strategy is applicable for product page deeplink
+     *
+     * @return {@link DeeplinkPage#PRODUCT}
+     */
     @Override
     public DeeplinkPage getApplicableDeeplinkPage() {
         return DeeplinkPage.PRODUCT;

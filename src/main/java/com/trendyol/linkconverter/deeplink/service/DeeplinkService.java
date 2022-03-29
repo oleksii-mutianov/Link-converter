@@ -9,6 +9,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * Service to process deeplinks.
+ */
 @Service
 @RequiredArgsConstructor
 public class DeeplinkService {
@@ -17,6 +20,9 @@ public class DeeplinkService {
 
     /**
      * Convert deeplink to weblink
+     *
+     * @param deeplinkRequestDto request with deeplink
+     * @return response with weblink
      */
     @Cacheable(CacheNames.DEEPLINK)
     public WeblinkResponseDto convertToWeblink(DeeplinkRequestDto deeplinkRequestDto) {

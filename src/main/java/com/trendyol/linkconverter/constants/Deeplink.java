@@ -3,6 +3,9 @@ package com.trendyol.linkconverter.constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Some constants for deeplinks.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Deeplink {
 

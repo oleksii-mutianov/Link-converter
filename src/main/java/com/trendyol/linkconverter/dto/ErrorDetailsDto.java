@@ -37,7 +37,7 @@ public class ErrorDetailsDto {
     }
 
     /**
-     * Returns a {@link ResponseEntity} with the error details.
+     * Wraps {@link ErrorDetailsDto} in {@link ResponseEntity}.
      *
      * @return {@link ResponseEntity}
      */

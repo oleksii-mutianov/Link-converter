@@ -14,6 +14,9 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * Class for providing deeplink strategies.
+ */
 @Component
 public class DeeplinkStrategyProvider {
 

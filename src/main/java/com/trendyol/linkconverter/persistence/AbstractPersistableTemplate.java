@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.util.UriComponents;
 
+/**
+ * Abstract class that provides persistence for links.
+ */
 @Slf4j
 public abstract class AbstractPersistableTemplate {
 

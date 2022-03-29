@@ -3,6 +3,9 @@ package com.trendyol.linkconverter.constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Cache names constants.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CacheNames {
 

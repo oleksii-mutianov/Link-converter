@@ -11,6 +11,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+/**
+ * Strategy for product weblinks.
+ */
 @Component
 public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
 

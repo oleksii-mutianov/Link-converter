@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+/**
+ * Controller for links converting.
+ */
 @Tag(name = "Link Converter API")
 @RestController
 @RequiredArgsConstructor
@@ -25,12 +28,24 @@ public class LinkController {
     private final WeblinkService weblinkService;
     private final DeeplinkService deeplinkService;
 
+    /**
+     * Convert weblink to deeplink
+     *
+     * @param weblinkRequestDto request with web link
+     * @return response with deeplink
+     */
     @Operation(summary = "Convert weblink to deeplink")
     @PostMapping("weblink-to-deeplink")
     public DeeplinkResponseDto convertToDeeplink(@RequestBody @Valid WeblinkRequestDto weblinkRequestDto) {
         return weblinkService.convertToDeeplink(weblinkRequestDto);
     }
 
+    /**
+     * Convert deeplink to weblink
+     *
+     * @param deeplinkRequestDto request with deeplink
+     * @return response with weblink
+     */
     @Operation(summary = "Convert deeplink to weblink")
     @PostMapping("deeplink-to-weblink")
     public WeblinkResponseDto convertToWeblink(@RequestBody @Valid DeeplinkRequestDto deeplinkRequestDto) {

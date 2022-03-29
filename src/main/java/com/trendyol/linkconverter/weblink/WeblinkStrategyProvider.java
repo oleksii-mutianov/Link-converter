@@ -8,6 +8,9 @@ import org.springframework.web.util.UriComponents;
 
 import java.util.List;
 
+/**
+ * Class for providing weblink strategies.
+ */
 @Component
 @RequiredArgsConstructor
 public class WeblinkStrategyProvider {

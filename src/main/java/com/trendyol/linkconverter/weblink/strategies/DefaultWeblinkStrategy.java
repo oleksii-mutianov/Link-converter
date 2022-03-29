@@ -4,6 +4,9 @@ import com.trendyol.linkconverter.constants.Deeplink;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 
+/**
+ * Default weblink strategy when no strategy is found.
+ */
 @Component
 public class DefaultWeblinkStrategy implements WeblinkStrategy {
 

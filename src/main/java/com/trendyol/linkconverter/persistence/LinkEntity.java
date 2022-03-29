@@ -25,11 +25,20 @@ import javax.persistence.Table;
         indexes = @Index(columnList = "requestLink", unique = true)
 )
 public class LinkEntity {
+    /**
+     * Unique identifier
+     */
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
+    /**
+     * Original link
+     */
     private String requestLink;
+    /**
+     * Converted link
+     */
     private String responseLink;
 
     public LinkEntity(String requestLink, String responseLink) {

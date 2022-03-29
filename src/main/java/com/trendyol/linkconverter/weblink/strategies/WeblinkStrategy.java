@@ -2,6 +2,9 @@ package com.trendyol.linkconverter.weblink.strategies;
 
 import org.springframework.web.util.UriComponents;
 
+/**
+ * Base interface for weblink strategies.
+ */
 public interface WeblinkStrategy {
 
     /**

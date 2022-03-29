@@ -3,6 +3,9 @@ package com.trendyol.linkconverter.constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Error messages constants.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorMessage {
     public static final String MULTIPLE_CONTENT_ID = "Multiple 'ContentId' parameter not supported for deeplinks";
