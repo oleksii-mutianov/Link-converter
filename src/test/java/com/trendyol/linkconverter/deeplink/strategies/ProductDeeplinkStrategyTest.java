@@ -1,5 +1,6 @@
 package com.trendyol.linkconverter.deeplink.strategies;
 
+import com.trendyol.linkconverter.config.QueryMappings;
 import com.trendyol.linkconverter.exception.InvalidParameterException;
 import com.trendyol.linkconverter.persistence.LinkEntity;
 import com.trendyol.linkconverter.persistence.LinkRepository;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -28,6 +30,9 @@ class ProductDeeplinkStrategyTest {
 
     @Mock
     private LinkRepository linkRepository;
+
+    @Mock
+    private QueryMappings queryMappings;
 
     @InjectMocks
     private ProductDeeplinkStrategy productDeeplinkStrategy;
@@ -64,9 +69,20 @@ class ProductDeeplinkStrategyTest {
     @ParameterizedTest
     @MethodSource("getWeblinkTestData")
     void getWeblink(String requestLink, String expectedResponseLink) {
+        when(queryMappings.getOptionalParams())
+                .thenReturn(Map.of(
+                        "boutiqueId", "CampaignId",
+                        "merchantId", "MerchantId"
+                ));
+
         var requestUri = UriComponentsBuilder.fromUriString(requestLink).build();
         var actualResponseLink = productDeeplinkStrategy.getWeblink(requestUri);
-        assertEquals(expectedResponseLink, actualResponseLink);
+
+        // need to wrap links in UriComponents because query params order is not guaranteed
+        assertEquals(
+                UriComponentsBuilder.fromUriString(expectedResponseLink).build(),
+                UriComponentsBuilder.fromUriString(actualResponseLink).build()
+        );
     }
 
     static Stream<Arguments> getWeblinkTestData() {

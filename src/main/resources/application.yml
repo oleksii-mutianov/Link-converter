@@ -19,6 +19,11 @@ server:
   error:
     include-stacktrace: never
 
+query-mappings:
+  optional-params:
+    boutiqueId: CampaignId
+    merchantId: MerchantId
+
 management:
   endpoint:
     health:

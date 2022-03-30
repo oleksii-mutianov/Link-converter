@@ -1,17 +1,17 @@
 package com.trendyol.linkconverter.persistence;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.util.UriComponents;
 
 /**
  * Abstract class that provides persistence for links.
  */
 @Slf4j
+@RequiredArgsConstructor
 public abstract class AbstractPersistableTemplate {
 
-    @Autowired
-    private LinkRepository linkRepository;
+    private final LinkRepository linkRepository;
 
     /**
      * Creates a new response link from request link.

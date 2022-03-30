@@ -1,5 +1,6 @@
 package com.trendyol.linkconverter.deeplink;
 
+import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import com.trendyol.linkconverter.deeplink.strategies.DeeplinkStrategy;
 import com.trendyol.linkconverter.deeplink.strategies.DefaultDeeplinkStrategy;
 import com.trendyol.linkconverter.deeplink.strategies.ProductDeeplinkStrategy;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Spy;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,21 +23,26 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DeeplinkStrategyProviderTest {
 
-    @Spy
+    @Mock
     private DefaultDeeplinkStrategy defaultDeeplinkStrategy;
-    @Spy
+    @Mock
     private SearchDeeplinkStrategy searchDeeplinkStrategy;
-    @Spy
+    @Mock
     private ProductDeeplinkStrategy productDeeplinkStrategy;
 
     private DeeplinkStrategyProvider deeplinkStrategyProvider;
 
     @BeforeEach
     void setUp() {
+        when(defaultDeeplinkStrategy.getApplicableDeeplinkPage()).thenReturn(DeeplinkPage.DEFAULT);
+        when(searchDeeplinkStrategy.getApplicableDeeplinkPage()).thenReturn(DeeplinkPage.SEARCH);
+        when(productDeeplinkStrategy.getApplicableDeeplinkPage()).thenReturn(DeeplinkPage.PRODUCT);
+
         deeplinkStrategyProvider = new DeeplinkStrategyProvider(List.of(
                 defaultDeeplinkStrategy,
                 searchDeeplinkStrategy,

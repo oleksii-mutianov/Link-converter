@@ -5,11 +5,10 @@ import com.trendyol.linkconverter.weblink.strategies.ProductDetailsWeblinkStrate
 import com.trendyol.linkconverter.weblink.strategies.SearchWeblinkStrategy;
 import com.trendyol.linkconverter.weblink.strategies.WeblinkStrategy;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Spy;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -17,44 +16,55 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WeblinkStrategyProviderTest {
 
-    @Spy
+    @Mock
     private DefaultWeblinkStrategy defaultWeblinkStrategy;
 
-    @Spy
+    @Mock
     private SearchWeblinkStrategy searchWeblinkStrategy;
 
-    @Spy
+    @Mock
     private ProductDetailsWeblinkStrategy productDetailsWeblinkStrategy;
 
+    @Mock
+    private List<WeblinkStrategy> weblinkStrategies;
+
+    @InjectMocks
     private WeblinkStrategyProvider weblinkStrategyProvider;
 
     @BeforeEach
     void setUp() {
-        var weblinkStrategies = List.of(defaultWeblinkStrategy, searchWeblinkStrategy, productDetailsWeblinkStrategy);
-        weblinkStrategyProvider = new WeblinkStrategyProvider(weblinkStrategies, defaultWeblinkStrategy);
+        when(weblinkStrategies.stream())
+                .thenReturn(Stream.of(defaultWeblinkStrategy, searchWeblinkStrategy, productDetailsWeblinkStrategy));
     }
 
-    @ParameterizedTest
-    @MethodSource("getWeblinkStrategyMethodSource")
-    void getWeblinkStrategy(String link, Class<? extends WeblinkStrategy> expectedStrategyClass) {
-        var uriComponents = UriComponentsBuilder.fromUriString(link).build();
-        var actualStrategyClass = weblinkStrategyProvider.getWeblinkStrategy(uriComponents).getClass().getSuperclass();
-        assertEquals(actualStrategyClass, expectedStrategyClass);
+    @Test
+    void shouldReturnApplicableStrategy() {
+        // GIVEN
+        var weblinkUri = UriComponentsBuilder.fromUriString("https://www.trendyol.com/sr?q=elbise").build();
+        when(searchWeblinkStrategy.isWeblinkApplicable(weblinkUri)).thenReturn(true);
+
+        // WHEN
+        var weblinkStrategy = weblinkStrategyProvider.getWeblinkStrategy(weblinkUri);
+
+        // THEN
+        assertEquals(searchWeblinkStrategy, weblinkStrategy);
     }
 
-    static Stream<Arguments> getWeblinkStrategyMethodSource() {
-        return Stream.of(
-                arguments("https://www.trendyol.com/casio/saat-p-1925865?boutiqueId=439892&merchantId=105064", ProductDetailsWeblinkStrategy.class),
-                arguments("https://www.trendyol.com/casio/erkek-kol-saati-p-1925865", ProductDetailsWeblinkStrategy.class),
-                arguments("https://www.trendyol.com/sr?q=elbise", SearchWeblinkStrategy.class),
-                arguments("https://www.trendyol.com/sr?q=%C3%BCt%C3%BC", SearchWeblinkStrategy.class),
-                arguments("https://www.trendyol.com/Hesabim/Favoriler", DefaultWeblinkStrategy.class),
-                arguments("https://www.trendyol.com/Hesabim/#/Siparislerim", DefaultWeblinkStrategy.class)
-        );
+    @Test
+    void shouldReturnDefaultWeblinkStrategyIfNoStrategyApplicable() {
+        // GIVEN
+        var weblinkUri = UriComponentsBuilder.fromUriString("https://www.trendyol.com/Hesabim/Favoriler").build();
+
+        // WHEN
+        var weblinkStrategy = weblinkStrategyProvider.getWeblinkStrategy(weblinkUri);
+
+        // THEN
+        assertEquals(defaultWeblinkStrategy, weblinkStrategy);
     }
+
 }

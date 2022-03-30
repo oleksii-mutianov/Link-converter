@@ -32,11 +32,13 @@ public class DeeplinkStrategyProvider {
      */
     public DeeplinkStrategy getDeeplinkStrategy(UriComponents deeplinkUri) {
         var page = deeplinkUri.getQueryParams().get(Deeplink.QueryParams.PAGE);
-        if (page.size() != 1) {
+        var applicableSegmentCount = 1;
+        if (page.size() != applicableSegmentCount) {
             throw new InvalidParameterException(ErrorMessage.MULTIPLE_PAGE);
         }
 
-        return strategies.get(DeeplinkPage.fromString(page.get(0)));
+        var firstElementIndex = 0;
+        return strategies.get(DeeplinkPage.fromString(page.get(firstElementIndex)));
     }
 
 }

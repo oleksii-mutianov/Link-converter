@@ -1,10 +1,13 @@
 package com.trendyol.linkconverter.weblink.strategies;
 
 import com.google.common.base.CharMatcher;
+import com.trendyol.linkconverter.config.QueryMappings;
 import com.trendyol.linkconverter.constants.Deeplink;
 import com.trendyol.linkconverter.constants.Weblink;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
+import com.trendyol.linkconverter.persistence.LinkRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,6 +25,13 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
     private static final Pattern VALID_PRODUCT_LINK_SEGMENT_PATTERN =
             Pattern.compile(ANY_SYMBOLS + Weblink.PathSegments.PRODUCT_DELIMITER + ANY_DIGITS);
 
+    private final QueryMappings queryMappings;
+
+    public ProductDetailsWeblinkStrategy(LinkRepository linkRepository, QueryMappings queryMappings) {
+        super(linkRepository);
+        this.queryMappings = queryMappings;
+    }
+
     /**
      * Converts product page weblink to deeplink
      */
@@ -32,14 +42,13 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
         var contentId = CharMatcher.inRange('0', '9').retainFrom(lastSegment);
         var queryParams = weblinkUri.getQueryParams();
 
-        var deeplinkUri = UriComponentsBuilder.fromUriString(Deeplink.BASE_URI)
+        var deeplinkUriBuilder = UriComponentsBuilder.fromUriString(Deeplink.BASE_URI)
                 .queryParam(Deeplink.QueryParams.PAGE, DeeplinkPage.PRODUCT.getValue())
-                .queryParam(Deeplink.QueryParams.CONTENT_ID, contentId)
-                .queryParamIfPresent(Deeplink.QueryParams.CAMPAIGN_ID, Optional.ofNullable(queryParams.get(Weblink.QueryParam.BOUTIQUE_ID)))
-                .queryParamIfPresent(Deeplink.QueryParams.MERCHANT_ID, Optional.ofNullable(queryParams.get(Weblink.QueryParam.MERCHANT_ID)))
-                .build();
+                .queryParam(Deeplink.QueryParams.CONTENT_ID, contentId);
 
-        return deeplinkUri.toString();
+        applyOptionalParams(deeplinkUriBuilder, queryParams);
+
+        return deeplinkUriBuilder.build().toString();
     }
 
     /**
@@ -57,5 +66,17 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
 
         var lastSegmentIndex = 1;
         return VALID_PRODUCT_LINK_SEGMENT_PATTERN.matcher(pathSegments.get(lastSegmentIndex)).matches();
+    }
+
+    /**
+     * Applies optional parameters to the deeplink
+     *
+     * @param deeplinkUriBuilder weblink builder to add optional parameters
+     * @param queryParams        query parameters to be added
+     */
+    private void applyOptionalParams(UriComponentsBuilder deeplinkUriBuilder, MultiValueMap<String, String> queryParams) {
+        queryMappings.getOptionalParams()
+                .forEach((weblinkParam, deeplinkParam) ->
+                        deeplinkUriBuilder.queryParamIfPresent(deeplinkParam, Optional.ofNullable(queryParams.get(weblinkParam))));
     }
 }

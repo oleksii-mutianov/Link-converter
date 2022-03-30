@@ -3,6 +3,7 @@ package com.trendyol.linkconverter.weblink.strategies;
 import com.trendyol.linkconverter.constants.Deeplink;
 import com.trendyol.linkconverter.constants.Weblink;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
+import com.trendyol.linkconverter.persistence.LinkRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,6 +13,10 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 @Component
 public class SearchWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
+
+    public SearchWeblinkStrategy(LinkRepository linkRepository) {
+        super(linkRepository);
+    }
 
     /**
      * Converts search page weblink to deeplink
