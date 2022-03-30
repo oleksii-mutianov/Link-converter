@@ -1,5 +1,6 @@
 package com.trendyol.linkconverter.weblink.strategies;
 
+import com.trendyol.linkconverter.constants.CommonConstants;
 import com.trendyol.linkconverter.constants.Deeplink;
 import com.trendyol.linkconverter.constants.Weblink;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
@@ -45,6 +46,6 @@ public class SearchWeblinkStrategy extends AbstractWeblinkStrategyPersistableTem
         if (pathSegments.size() != applicableSegmentCount) {
             return false;
         }
-        return pathSegments.get(0).equals(Weblink.PathSegments.SR);
+        return pathSegments.get(CommonConstants.FIRST_ELEMENT_INDEX).equals(Weblink.PathSegments.SR);
     }
 }

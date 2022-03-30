@@ -59,7 +59,8 @@ public class LoggingAspect {
     @Around("applicationPackagePointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         var log = logger(joinPoint);
-        log.info(">>> {}(); argument[s] = {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+        var argumentsAsString = Arrays.toString(joinPoint.getArgs());
+        log.info(">>> {}(); argument[s] = {}", joinPoint.getSignature().getName(), argumentsAsString);
         var result = joinPoint.proceed();
         log.info("<<< {}(); result = {}", joinPoint.getSignature().getName(), result);
         return result;

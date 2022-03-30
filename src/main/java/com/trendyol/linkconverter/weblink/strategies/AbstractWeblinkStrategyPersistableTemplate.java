@@ -8,7 +8,7 @@ import org.springframework.web.util.UriComponents;
  * Abstract class that provides persistence for weblink strategies.
  */
 public abstract class AbstractWeblinkStrategyPersistableTemplate extends AbstractPersistableTemplate implements WeblinkStrategy {
-    public AbstractWeblinkStrategyPersistableTemplate(LinkRepository linkRepository) {
+    protected AbstractWeblinkStrategyPersistableTemplate(LinkRepository linkRepository) {
         super(linkRepository);
     }
 

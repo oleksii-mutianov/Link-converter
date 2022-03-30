@@ -1,5 +1,6 @@
 package com.trendyol.linkconverter.deeplink;
 
+import com.trendyol.linkconverter.constants.CommonConstants;
 import com.trendyol.linkconverter.constants.Deeplink;
 import com.trendyol.linkconverter.constants.ErrorMessage;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
@@ -37,8 +38,7 @@ public class DeeplinkStrategyProvider {
             throw new InvalidParameterException(ErrorMessage.MULTIPLE_PAGE);
         }
 
-        var firstElementIndex = 0;
-        return strategies.get(DeeplinkPage.fromString(page.get(firstElementIndex)));
+        return strategies.get(DeeplinkPage.fromString(page.get(CommonConstants.FIRST_ELEMENT_INDEX)));
     }
 
 }

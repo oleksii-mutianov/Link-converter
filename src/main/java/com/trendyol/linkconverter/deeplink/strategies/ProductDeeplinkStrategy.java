@@ -37,7 +37,8 @@ public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistable
     protected String createNewResponseLink(UriComponents deeplinkUri) {
         var queryParams = deeplinkUri.getQueryParams();
 
-        if (queryParams.get(Deeplink.QueryParams.CONTENT_ID).size() != 1) {
+        var applicableParamCount = 1;
+        if (queryParams.get(Deeplink.QueryParams.CONTENT_ID).size() != applicableParamCount) {
             throw new InvalidParameterException(ErrorMessage.MULTIPLE_CONTENT_ID);
         }
 
