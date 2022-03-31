@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
  * Some constants for deeplinks.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Deeplink {
+public final class DeeplinkConstants {
 
     public static final String BASE_URI = "ty://";
     public static final String DEFAULT_PAGE = "ty://?Page=Home";
@@ -16,8 +16,6 @@ public final class Deeplink {
     public static final class QueryParams {
         public static final String PAGE = "Page";
         public static final String CONTENT_ID = "ContentId";
-        public static final String CAMPAIGN_ID = "CampaignId";
-        public static final String MERCHANT_ID = "MerchantId";
         public static final String QUERY = "Query";
     }
 }

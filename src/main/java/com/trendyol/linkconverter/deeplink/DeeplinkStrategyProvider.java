@@ -1,7 +1,7 @@
 package com.trendyol.linkconverter.deeplink;
 
 import com.trendyol.linkconverter.constants.CommonConstants;
-import com.trendyol.linkconverter.constants.Deeplink;
+import com.trendyol.linkconverter.constants.DeeplinkConstants;
 import com.trendyol.linkconverter.constants.ErrorMessage;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import com.trendyol.linkconverter.deeplink.strategies.DeeplinkStrategy;
@@ -32,7 +32,7 @@ public class DeeplinkStrategyProvider {
      * Get the appropriate strategy for the given deeplink page.
      */
     public DeeplinkStrategy getDeeplinkStrategy(UriComponents deeplinkUri) {
-        var page = deeplinkUri.getQueryParams().get(Deeplink.QueryParams.PAGE);
+        var page = deeplinkUri.getQueryParams().get(DeeplinkConstants.QueryParams.PAGE);
         var applicableSegmentCount = 1;
         if (page.size() != applicableSegmentCount) {
             throw new InvalidParameterException(ErrorMessage.MULTIPLE_PAGE);

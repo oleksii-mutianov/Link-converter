@@ -1,7 +1,7 @@
 package com.trendyol.linkconverter.deeplink.strategies;
 
-import com.trendyol.linkconverter.constants.Deeplink;
-import com.trendyol.linkconverter.constants.Weblink;
+import com.trendyol.linkconverter.constants.DeeplinkConstants;
+import com.trendyol.linkconverter.constants.WeblinkConstants;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import com.trendyol.linkconverter.persistence.LinkRepository;
 import org.springframework.stereotype.Component;
@@ -28,9 +28,9 @@ public class SearchDeeplinkStrategy extends AbstractDeeplinkStrategyPersistableT
     protected String createNewResponseLink(UriComponents deeplinkUri) {
         var queryParams = deeplinkUri.getQueryParams();
 
-        var weblinkUri = UriComponentsBuilder.fromUriString(Weblink.BASE_URI)
-                .pathSegment(Weblink.PathSegments.SR)
-                .queryParam(Weblink.QueryParam.QUERY, queryParams.get(Deeplink.QueryParams.QUERY))
+        var weblinkUri = UriComponentsBuilder.fromUriString(WeblinkConstants.BASE_URI)
+                .pathSegment(WeblinkConstants.PathSegments.SR)
+                .queryParam(WeblinkConstants.QueryParam.QUERY, queryParams.get(DeeplinkConstants.QueryParams.QUERY))
                 .build();
 
         return weblinkUri.toString();

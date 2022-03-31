@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
  * Some constants for web links.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Weblink {
+public final class WeblinkConstants {
 
     public static final String DEFAULT_PAGE = "https://www.trendyol.com";
     public static final String BASE_URI = DEFAULT_PAGE;
@@ -23,7 +23,5 @@ public final class Weblink {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class QueryParam {
         public static final String QUERY = "q";
-        public static final String MERCHANT_ID = "merchantId";
-        public static final String BOUTIQUE_ID = "boutiqueId";
     }
 }

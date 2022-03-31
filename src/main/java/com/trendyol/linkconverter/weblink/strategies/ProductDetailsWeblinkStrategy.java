@@ -2,8 +2,8 @@ package com.trendyol.linkconverter.weblink.strategies;
 
 import com.google.common.base.CharMatcher;
 import com.trendyol.linkconverter.config.QueryMappings;
-import com.trendyol.linkconverter.constants.Deeplink;
-import com.trendyol.linkconverter.constants.Weblink;
+import com.trendyol.linkconverter.constants.DeeplinkConstants;
+import com.trendyol.linkconverter.constants.WeblinkConstants;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import com.trendyol.linkconverter.persistence.LinkRepository;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
     private static final String ANY_SYMBOLS = ".+";
     private static final String ANY_DIGITS = "[0-9]+";
     private static final Pattern VALID_PRODUCT_LINK_SEGMENT_PATTERN =
-            Pattern.compile(ANY_SYMBOLS + Weblink.PathSegments.PRODUCT_DELIMITER + ANY_DIGITS);
+            Pattern.compile(ANY_SYMBOLS + WeblinkConstants.PathSegments.PRODUCT_DELIMITER + ANY_DIGITS);
 
     private final QueryMappings queryMappings;
 
@@ -42,9 +42,9 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
         var contentId = CharMatcher.inRange('0', '9').retainFrom(lastSegment);
         var queryParams = weblinkUri.getQueryParams();
 
-        var deeplinkUriBuilder = UriComponentsBuilder.fromUriString(Deeplink.BASE_URI)
-                .queryParam(Deeplink.QueryParams.PAGE, DeeplinkPage.PRODUCT.getValue())
-                .queryParam(Deeplink.QueryParams.CONTENT_ID, contentId);
+        var deeplinkUriBuilder = UriComponentsBuilder.fromUriString(DeeplinkConstants.BASE_URI)
+                .queryParam(DeeplinkConstants.QueryParams.PAGE, DeeplinkPage.PRODUCT.getValue())
+                .queryParam(DeeplinkConstants.QueryParams.CONTENT_ID, contentId);
 
         applyOptionalParams(deeplinkUriBuilder, queryParams);
 

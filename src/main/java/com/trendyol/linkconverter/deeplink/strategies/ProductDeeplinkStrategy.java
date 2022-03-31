@@ -1,9 +1,9 @@
 package com.trendyol.linkconverter.deeplink.strategies;
 
 import com.trendyol.linkconverter.config.QueryMappings;
-import com.trendyol.linkconverter.constants.Deeplink;
+import com.trendyol.linkconverter.constants.DeeplinkConstants;
 import com.trendyol.linkconverter.constants.ErrorMessage;
-import com.trendyol.linkconverter.constants.Weblink;
+import com.trendyol.linkconverter.constants.WeblinkConstants;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import com.trendyol.linkconverter.exception.InvalidParameterException;
 import com.trendyol.linkconverter.persistence.LinkRepository;
@@ -38,12 +38,12 @@ public class ProductDeeplinkStrategy extends AbstractDeeplinkStrategyPersistable
         var queryParams = deeplinkUri.getQueryParams();
 
         var applicableParamCount = 1;
-        if (queryParams.get(Deeplink.QueryParams.CONTENT_ID).size() != applicableParamCount) {
+        if (queryParams.get(DeeplinkConstants.QueryParams.CONTENT_ID).size() != applicableParamCount) {
             throw new InvalidParameterException(ErrorMessage.MULTIPLE_CONTENT_ID);
         }
 
-        var weblinkUriBuilder = UriComponentsBuilder.fromUriString(Weblink.BASE_URI)
-                .pathSegment(Weblink.PathSegments.BRAND, Weblink.PathSegments.NAME_P + queryParams.get(Deeplink.QueryParams.CONTENT_ID).get(0));
+        var weblinkUriBuilder = UriComponentsBuilder.fromUriString(WeblinkConstants.BASE_URI)
+                .pathSegment(WeblinkConstants.PathSegments.BRAND, WeblinkConstants.PathSegments.NAME_P + queryParams.get(DeeplinkConstants.QueryParams.CONTENT_ID).get(0));
 
         applyOptionalParams(weblinkUriBuilder, queryParams);
 

@@ -1,6 +1,6 @@
 package com.trendyol.linkconverter.deeplink.strategies;
 
-import com.trendyol.linkconverter.constants.Weblink;
+import com.trendyol.linkconverter.constants.WeblinkConstants;
 import com.trendyol.linkconverter.deeplink.enums.DeeplinkPage;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
@@ -19,7 +19,7 @@ public class DefaultDeeplinkStrategy implements DeeplinkStrategy {
      */
     @Override
     public String getWeblink(UriComponents deeplinkUri) {
-        return Weblink.DEFAULT_PAGE;
+        return WeblinkConstants.DEFAULT_PAGE;
     }
 
     /**
