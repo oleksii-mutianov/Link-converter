@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
 @Component
 public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersistableTemplate {
 
+    private static final char START_NUM_RANGE = '0';
+    private static final char END_NUM_RANGE = '9';
     private static final String ANY_SYMBOLS = ".+";
     private static final String ANY_DIGITS = "[0-9]+";
     private static final Pattern VALID_PRODUCT_LINK_SEGMENT_PATTERN =
@@ -39,7 +41,7 @@ public class ProductDetailsWeblinkStrategy extends AbstractWeblinkStrategyPersis
     protected String createNewResponseLink(UriComponents weblinkUri) {
         var pathSegments = weblinkUri.getPathSegments();
         var lastSegment = pathSegments.get(pathSegments.size() - 1);
-        var contentId = CharMatcher.inRange('0', '9').retainFrom(lastSegment);
+        var contentId = CharMatcher.inRange(START_NUM_RANGE, END_NUM_RANGE).retainFrom(lastSegment);
         var queryParams = weblinkUri.getQueryParams();
 
         var deeplinkUriBuilder = UriComponentsBuilder.fromUriString(DeeplinkConstants.BASE_URI)
